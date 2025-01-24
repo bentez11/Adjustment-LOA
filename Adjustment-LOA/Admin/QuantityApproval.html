@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Price Approval</title>
+  <title>Quantity Approval</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link rel="icon" href="../Images/Eco-Shop logo.png" type="image/png">
@@ -13,13 +13,6 @@
     }
     .main-container {
       margin-top: 50px;
-    }
-    .shaded {
-      background-color: #e9ecef; /* Light shaded effect */
-      color: #6c757d; /* Light gray text */
-    }
-    .hidden {
-      display: none;
     }
     .pagination {
       justify-content: center;
@@ -36,20 +29,21 @@
       <!-- Sidebar -->
       <div class="col-md-3">
         <div class="list-group">
-          <a href="QuantityApproval.html" class="list-group-item list-group-item-action">Approval by Price </a>
-          <a href="PriceApproval.html" class="list-group-item list-group-item-action active">Approval by Quantity </a>
+          <a href="QuantityApproval.html" class="list-group-item list-group-item-action">Approval by Quantity </a>
+          <a href="PriceApproval.html" class="list-group-item list-group-item-action">Approval by Price </a>
           <a href="OutletRegionalSettings.html" class="list-group-item list-group-item-action">Outlet Regional Settings</a>
-          <a href="OutletPage.html" class="list-group-item list-group-item-action">Outlet </a>
-          <a href="OutletApproval.html" class="list-group-item list-group-item-action">Outlet Approval</a>
+          <a href="OutletPage.html" class="list-group-item list-group-item-action">Outlet Page</a>
           <a href="AuthorizationPage.html" class="list-group-item list-group-item-action">Authorization Page</a>
-         
+          <a href="OutletApproval.html" class="list-group-item list-group-item-action">Outlet Approval</a>
         </div>
       </div>
 
       <!-- Content Panel -->
       <div class="col-md-9">
         <h1 class="mb-4 text-center">Approval by Quantity</h1>
-        <ul class="nav nav-tabs mb-4" id="priceApprovalTabs" role="tablist">
+        
+        <!-- Tabs for Active, Hidden, All -->
+        <ul class="nav nav-tabs mb-4" id="quantityApprovalTabs" role="tablist">
           <li class="nav-item">
             <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">Active</button>
           </li>
@@ -65,17 +59,21 @@
           <!-- Active Tab -->
           <div class="tab-pane fade show active" id="active" role="tabpanel">
             <h6>Active Approvals</h6>
-            <table class="table" id="activeTable">
+            <table class="table">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Level 1</th>
                   <th>Level 2</th>
                   <th>Level 3</th>
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                  <th>Modified At</th>
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="activeTableBody">
                 <!-- Active rows appear here -->
               </tbody>
             </table>
@@ -84,17 +82,21 @@
           <!-- Hidden Tab -->
           <div class="tab-pane fade" id="hidden" role="tabpanel">
             <h6>Hidden Approvals</h6>
-            <table class="table" id="hiddenTable">
+            <table class="table">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Level 1</th>
                   <th>Level 2</th>
                   <th>Level 3</th>
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                  <th>Modified At</th>
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="hiddenTableBody">
                 <!-- Hidden rows appear here -->
               </tbody>
             </table>
@@ -103,17 +105,22 @@
           <!-- All Tab -->
           <div class="tab-pane fade" id="all" role="tabpanel">
             <h6>All Approvals</h6>
-            <table class="table" id="allTable">
+            <table class="table">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Level 1</th>
                   <th>Level 2</th>
                   <th>Level 3</th>
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                  <th>Modified At</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="allTableBody">
                 <!-- All rows (active + hidden) appear here -->
               </tbody>
             </table>
@@ -124,20 +131,19 @@
         <h6 class="mt-4 mb-3">Add New Levels</h6>
         <div class="row mb-3">
           <div class="col">
-            <label for="level1Threshold" class="form-label">Level 1 </label>
+            <label for="level1Threshold" class="form-label">Level 1 Threshold</label>
             <input type="number" class="form-control" id="level1Threshold" placeholder="Enter Level 1 Threshold">
           </div>
           <div class="col">
-            <label for="level2Threshold" class="form-label">Level 2 </label>
+            <label for="level2Threshold" class="form-label">Level 2 Threshold</label>
             <input type="number" class="form-control" id="level2Threshold" placeholder="Enter Level 2 Threshold">
           </div>
+          <div class="col">
+            <label for="createdBy" class="form-label">Created By</label>
+            <input type="text" class="form-control" id="createdBy" placeholder="Enter Creator Name">
+          </div>
         </div>
-        <button class="btn btn-primary" onclick="addNewLevel()">Add New Level</button>
-
-        <!-- Pagination -->
-        <nav class="mt-4">
-          <ul class="pagination" id="activePagination"></ul>
-        </nav>
+        <button class="btn btn-primary" onclick="addNewQuantityLevel()">Add New Level</button>
       </div>
     </div>
   </div>
@@ -146,135 +152,122 @@
     const activeRows = [];
     const hiddenRows = [];
     const allRows = [];
-    const rowsPerPage = 10;
+    const rowsPerPage = 5;
     let activePage = 1;
 
-    function addNewLevel() {
+    function addNewQuantityLevel() {
       const level1Threshold = parseInt(document.getElementById("level1Threshold").value);
       const level2Threshold = parseInt(document.getElementById("level2Threshold").value);
+      const createdBy = document.getElementById("createdBy").value;
 
       if (!level1Threshold || !level2Threshold || level1Threshold >= level2Threshold) {
         alert("Please enter valid Level 1 and Level 2 thresholds.");
         return;
       }
 
+      const id = allRows.length + 1;
       const level1Range = `1 - ${level1Threshold}`;
       const level2Range = `${level1Threshold + 1} - ${level2Threshold}`;
       const level3Range = `> ${level2Threshold}`;
-      const id = allRows.length + 1;
+      const createdAt = new Date().toLocaleString();
 
-      const newRow = { id, level1Range, level2Range, level3Range, status: "Active" };
+      const newRow = {
+        id,
+        level1Range,
+        level2Range,
+        level3Range,
+        createdBy,
+        createdAt,
+        modifiedBy: "--",
+        modifiedAt: "--",
+        status: "Active",
+      };
+
       activeRows.push(newRow);
       allRows.push(newRow);
 
-      renderActiveTable();
-      renderAllTable();
-
-      document.getElementById("level1Threshold").value = "";
-      document.getElementById("level2Threshold").value = "";
+      renderTables();
     }
 
-    function toggleVisibility(rowId, targetStatus) {
-      const rowIndex = allRows.findIndex(row => row.id === rowId);
+    function toggleVisibility(id, targetStatus) {
+      const rowIndex = allRows.findIndex(row => row.id === id);
       if (rowIndex !== -1) {
         const row = allRows[rowIndex];
         row.status = targetStatus;
+
         if (targetStatus === "Hidden") {
           hiddenRows.push(row);
-          const activeIndex = activeRows.findIndex(r => r.id === rowId);
-          activeRows.splice(activeIndex, 1);
+          activeRows.splice(activeRows.findIndex(row => row.id === id), 1);
         } else {
           activeRows.push(row);
-          const hiddenIndex = hiddenRows.findIndex(r => r.id === rowId);
-          hiddenRows.splice(hiddenIndex, 1);
+          hiddenRows.splice(hiddenRows.findIndex(row => row.id === id), 1);
         }
 
-        renderActiveTable();
-        renderHiddenTable();
-        renderAllTable();
+        row.modifiedBy = "Admin";
+        row.modifiedAt = new Date().toLocaleString();
+
+        renderTables();
       }
     }
 
-    function renderActiveTable() {
-      const tableBody = document.querySelector("#activeTable tbody");
-      tableBody.innerHTML = "";
-
-      const startIndex = (activePage - 1) * rowsPerPage;
-      const endIndex = Math.min(startIndex + rowsPerPage, activeRows.length);
-      const rowsToShow = activeRows.slice(startIndex, endIndex);
-
-      rowsToShow.forEach(row => {
-        tableBody.innerHTML += `
-          <tr>
-            <td>${row.id}</td>
-            <td>${row.level1Range}</td>
-            <td>${row.level2Range}</td>
-            <td>${row.level3Range}</td>
-            <td><i class="fas fa-eye-slash" onclick="toggleVisibility(${row.id}, 'Hidden')"></i></td>
-          </tr>
-        `;
-      });
-
-      renderPagination();
+    function renderTables() {
+      renderTable(activeRows, "activeTableBody", "Hidden");
+      renderTable(hiddenRows, "hiddenTableBody", "Active");
+      renderAllTable();
     }
 
-    function renderHiddenTable() {
-      const tableBody = document.querySelector("#hiddenTable tbody");
+    function renderTable(rows, tableBodyId, targetStatus) {
+      const tableBody = document.getElementById(tableBodyId);
       tableBody.innerHTML = "";
 
-      hiddenRows.forEach(row => {
+      rows.forEach(row => {
         tableBody.innerHTML += `
           <tr>
             <td>${row.id}</td>
             <td>${row.level1Range}</td>
             <td>${row.level2Range}</td>
             <td>${row.level3Range}</td>
-            <td><i class="fas fa-eye" onclick="toggleVisibility(${row.id}, 'Active')"></i></td>
+            <td>${row.createdBy}</td>
+            <td>${row.createdAt}</td>
+            <td>${row.modifiedBy}</td>
+            <td>${row.modifiedAt}</td>
+            <td>
+              ${targetStatus === "Hidden"
+                ? `<i class="fas fa-eye-slash" onclick="toggleVisibility(${row.id}, 'Hidden')"></i>`
+                : `<i class="fas fa-eye" onclick="toggleVisibility(${row.id}, 'Active')"></i>`}
+            </td>
           </tr>
         `;
       });
     }
 
     function renderAllTable() {
-      const tableBody = document.querySelector("#allTable tbody");
-      tableBody.innerHTML = "";
+      const allTableBody = document.getElementById("allTableBody");
+      allTableBody.innerHTML = "";
 
       allRows.forEach(row => {
-        tableBody.innerHTML += `
+        allTableBody.innerHTML += `
           <tr>
             <td>${row.id}</td>
             <td>${row.level1Range}</td>
             <td>${row.level2Range}</td>
             <td>${row.level3Range}</td>
+            <td>${row.createdBy}</td>
+            <td>${row.createdAt}</td>
+            <td>${row.modifiedBy}</td>
+            <td>${row.modifiedAt}</td>
             <td>${row.status}</td>
+            <td>
+              ${row.status === "Active"
+                ? `<i class="fas fa-eye-slash" onclick="toggleVisibility(${row.id}, 'Hidden')"></i>`
+                : `<i class="fas fa-eye" onclick="toggleVisibility(${row.id}, 'Active')"></i>`}
+            </td>
           </tr>
         `;
       });
     }
 
-    function renderPagination() {
-      const pagination = document.getElementById("activePagination");
-      pagination.innerHTML = "";
-
-      const totalPages = Math.ceil(activeRows.length / rowsPerPage);
-
-      for (let i = 1; i <= totalPages; i++) {
-        pagination.innerHTML += `
-          <li class="page-item ${i === activePage ? "active" : ""}">
-            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
-          </li>
-        `;
-      }
-    }
-
-    function changePage(page) {
-      activePage = page;
-      renderActiveTable();
-    }
-
-    renderActiveTable();
-    renderHiddenTable();
-    renderAllTable();
+    renderTables();
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
